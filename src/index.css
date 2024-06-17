@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .box-style {
+        @apply flex gap-4 items-center bg-white px-3.5 py-1.5 rounded-2xl w-fit
+    }
+
+    .link-sidebar {
+        @apply py-3 px-4 items-center transition-colors duration-150 gap-1.5 flex font-medium text-sm hover:bg-gray-200
+    }
+
+    .grid-todos {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}

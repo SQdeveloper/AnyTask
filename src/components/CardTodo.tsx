@@ -8,7 +8,7 @@ interface Props {
 
 const CardTodo: React.FC<Props> = ({delay}) => {
     return (
-        <div className={`animate-appear-bottom delay-1000 px-4 pt-3 pb-[17px] rounded-md bg-white`}>
+        <div className={`animate-[appear-bottom_1s_both_${delay}] px-4 pt-3 pb-[17px] rounded-md bg-white`}>
             <div className="flex gap-2 justify-between">
                 <strong className="text-[17px]">Solucionar las Notificaciones</strong>
                 <UncheckedIcon strokeColor="red"/>

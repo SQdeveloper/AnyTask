@@ -17,7 +17,7 @@ export default {
       },
       animation: {
         'appear-right': 'appear-right 1s both',
-        'appear-bottom': 'appear-bottom 1s both'
+        'appear-bottom': 'appear-bottom 1s both 1s'        
       },       
       keyframes: {
         'appear-right': {
@@ -26,7 +26,7 @@ export default {
         },
         'appear-bottom' : {
           '0%': {
-            transform: 'translateY(3rem)',
+            transform: 'translateY(5rem)',
             opacity: 0
           },
           '100%': {

@@ -17,19 +17,19 @@ const SideBar = () => {
             </header>                        
             <ul className="mt-6 flex flex-col">
                 <li>
-                    <Link to='' className="link-sidebar">
+                    <Link to='/' className="link-sidebar">
                         <TodoIcon/>
                         Todos
                     </Link>
                 </li>
                 <li>
-                    <Link to='' className="link-sidebar">
+                    <Link to='/dailytasks' className="link-sidebar">
                         <DailyTaskIcon/>
                         Daily tasks
                     </Link>
                 </li>
                 <li>
-                    <Link to='' className="link-sidebar">
+                    <Link to='/targets' className="link-sidebar">
                         <TargetsIcon/>
                         Targets
                     </Link>

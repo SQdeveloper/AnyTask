@@ -14,4 +14,12 @@
     .grid-todos {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));        
     }
+
+    .input-style {
+        @apply bg-gray-200 px-2 py-1.5 rounded-md outline-none
+    }
+
+    .button-bg {
+        @apply hover:opacity-[80%] transition-opacity bg-blue-500 text-white rounded-md py-1.5 px-3
+    }    
 }

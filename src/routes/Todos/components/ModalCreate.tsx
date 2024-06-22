@@ -1,10 +1,13 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import AddIcon from "../../../components/icons/AddIcon";
 import { URGENCY } from "../../../constants/UrgencyTodo";
 import useTodoActions from "../../../hooks/useTodoActions";
+import { Alert } from "@mui/material";
 
-const ModalCreate = () => {
+const ModalCreate = ({handleClose}: {handleClose: Function}) => {
     const { handleAddTodo } = useTodoActions();
+    const [isModified, setIsModified] = useState(false);
+
 
     const handleCreateTodo = (event: FormEvent<HTMLFormElement>)=>{
         event.preventDefault();
@@ -16,8 +19,9 @@ const ModalCreate = () => {
         const _urgency = formData.get('urgency')as string;
         const urgency = _urgency === 'urgent' ? URGENCY.URGENT : URGENCY.RELAX;
      
-        if(!!!title || !!!description || !!!_urgency) return;                
+        if(!!!title || !!!description || !!!_urgency) return setIsModified(true);                
         handleAddTodo({title, description, urgency, state:false});
+        handleClose();
     }    
 
     return (
@@ -54,6 +58,12 @@ const ModalCreate = () => {
                         </span>
                         <textarea name="description" className="input-style" placeholder=""/>
                     </label>
+                    {
+                        isModified && 
+                        <Alert variant="outlined" severity="error">
+                            Complete fields
+                        </Alert>
+                    }
                 </div>
                 <hr className="border-gray-300"/>
                 <button className="button-bg mt-4 mx-4">Create</button>

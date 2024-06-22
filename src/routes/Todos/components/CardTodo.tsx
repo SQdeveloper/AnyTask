@@ -3,10 +3,11 @@ import CheckedIcon from "../../../components/icons/CheckedIcon";
 import DeleteIcon from "../../../components/icons/DeleteIcon";
 import EditIcon from "../../../components/icons/EditIcon";
 import UncheckedIcon from "../../../components/icons/UncheckedIcon";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import BasicModal from "../../../components/Modal";
 import useTodoActions from "../../../hooks/useTodoActions";
 import ModalEdit from "./ModalEdit";
+import ModalDelete from "../../../components/ModalDelete";
 
 interface Props {
     delay: number,
@@ -15,7 +16,8 @@ interface Props {
 
 const CardTodo: React.FC<Props> = ({delay, todo}) => {
     const [open, setOpen] = useState<boolean>(false);
-    const { handleChangeState, handleRemoveTodo } = useTodoActions();
+    const { handleChangeState } = useTodoActions();
+    const [openModalDelete, setOpenModalDelete] = useState(false);
 
     const handleOpen = ()=>{
         setOpen(true)
@@ -23,6 +25,14 @@ const CardTodo: React.FC<Props> = ({delay, todo}) => {
 
     const handleClose = ()=>{
         setOpen(false)
+    }
+
+    const handleOpenModalDelete = ()=>{
+        setOpenModalDelete(true);
+    }
+
+    const handleCloseModalDelete = ()=>{
+        setOpenModalDelete(false);
     }
 
     return (
@@ -42,6 +52,9 @@ const CardTodo: React.FC<Props> = ({delay, todo}) => {
             <BasicModal open={open} setOpen={setOpen}>
                 <ModalEdit todo={todo} handleClose={handleClose}/>
             </BasicModal>
+            <BasicModal open={openModalDelete} setOpen={setOpenModalDelete}>
+                <ModalDelete handleClose={handleCloseModalDelete} id={todo.id}/>
+            </BasicModal>
             <p className="my-4 mx-4 capitalize">{todo.description}</p>
             <hr className=""/>
             <div className="mx-4 flex justify-between mt-5">
@@ -54,7 +67,7 @@ const CardTodo: React.FC<Props> = ({delay, todo}) => {
                     }                    
                 </button>
                 <div className="flex gap-1.5">
-                    <button onClick={()=>{handleRemoveTodo(todo.id)}}><DeleteIcon/></button>
+                    <button onClick={handleOpenModalDelete}><DeleteIcon/></button>
                     <button onClick={handleOpen}><EditIcon/></button>                                                                
                 </div>
             </div>

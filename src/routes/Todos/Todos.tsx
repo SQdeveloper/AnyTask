@@ -17,10 +17,14 @@ const Todos = () => {
         setOpen(true)
     }    
 
+    const handleClose = ()=>{
+        setOpen(false)
+    }    
+
     return (                
         <section className="w-full">
             <BasicModal open={open} setOpen={setOpen}>
-                <ModalCreate/>
+                <ModalCreate handleClose={handleClose}/>
             </BasicModal>
             <div className="flex gap-4 flex-wrap">
                 <div className="box-style">

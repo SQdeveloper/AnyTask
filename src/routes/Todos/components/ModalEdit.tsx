@@ -1,10 +1,12 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import useTodoActions from "../../../hooks/useTodoActions";
 import { Todo } from "../../../store/todos/slice";
 import EditIcon from "../../../components/icons/EditIcon";
+import { Alert } from "@mui/material";
 
-const ModalEdit = ({todo, handleClose}:{todo: Todo, handleClose: React.MouseEventHandler<HTMLButtonElement>}) => {
+const ModalEdit = ({todo, handleClose}:{todo: Todo, handleClose: Function}) => {
     const { handleModifyTodo } = useTodoActions();
+    const [isModified, setIsModified] = useState(false);
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>)=>{
         event.preventDefault();
@@ -17,15 +19,16 @@ const ModalEdit = ({todo, handleClose}:{todo: Todo, handleClose: React.MouseEven
         
         const _urgency = todo.urgency ? 'Urgent' : 'Relax';
 
-        if(title === todo.title && urgency === _urgency && description === todo.description) return;
+        if(title === todo.title && urgency === _urgency && description === todo.description) return setIsModified(true);
         
         const transformedUrgency = urgency === 'Urgent' ? true : false;
         const body = {...todo, title, urgency: transformedUrgency, description}
         handleModifyTodo(body)
+        handleClose();
     }
 
     return (
-        <div className="rounded-md pb-4 pt-3.5 w-[400px] absolute left-[50%] bg-white top-[50%] translate-x-[-50%] translate-y-[-50%]">
+        <div className="box-modal-style">
             <div className="pb-4 flex justify-center items-center gap-2">
                 <EditIcon strokeColor="#3B82F6"/>
                 <h2 className="text-[23px] font-medium text-center">Modify</h2>
@@ -61,6 +64,12 @@ const ModalEdit = ({todo, handleClose}:{todo: Todo, handleClose: React.MouseEven
                         </span>
                         <textarea defaultValue={todo.description} name="description" className="input-style" placeholder=""/>
                     </label>
+                    {
+                        isModified && 
+                        <Alert variant="outlined" severity="error">
+                            Complete fields
+                        </Alert>
+                    }
                 </div>
                 <hr className="border-gray-300"/>
                 <button className="button-bg mt-4 mx-4">Modify</button>

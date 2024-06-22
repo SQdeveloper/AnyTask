@@ -15,12 +15,20 @@
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));        
     }
 
+    .box-modal-style {
+        @apply rounded-md pb-4 pt-3.5 w-[400px] absolute left-[50%] bg-white top-[50%] translate-x-[-50%] translate-y-[-50%]
+    }
+
     .input-style {
         @apply bg-gray-200 px-2 py-1.5 rounded-md outline-none
     }
 
     .button-bg {
         @apply hover:opacity-[80%] transition-opacity bg-blue-500 text-white rounded-md py-1.5 px-3
+    }    
+
+    .button-without {
+        @apply hover:bg-blue-500 hover:text-white transition-all bg-white text-blue-500 border border-blue-500 rounded-md py-1.5 px-3
     }    
 }
 

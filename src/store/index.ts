@@ -1,11 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { Middleware, configureStore } from "@reduxjs/toolkit";
 import todosReducer from './todos/slice'
 
-const LocalStoreMiddleware = (store) => (next) =>(action) => {
-    next(action);
-
-    const state = store.getState().todos;
+const LocalStoreMiddleware: Middleware = (api) => (next) => (action) => {
+    const result = next(action);
+    
+    const state = api.getState().todos;
     localStorage.setItem('__redux__storage__', JSON.stringify(state));    
+    
+    return result
 }
 
 export const store = configureStore({
@@ -16,4 +18,4 @@ export const store = configureStore({
 })
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;

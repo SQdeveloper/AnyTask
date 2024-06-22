@@ -15,7 +15,7 @@ const defaultState: Todo[] = []
 const initialState: Todo[] = (()=>{
     const existStorage = localStorage.getItem('__redux__storage__');
 
-    if(!existStorage) return defaultState
+    if(!existStorage) return defaultState;
     return JSON.parse(existStorage)
 })()
 

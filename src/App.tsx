@@ -1,9 +1,9 @@
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import SideBar from './components/SideBar'
-import DailyTasks from './routes/DailyTasks'
-import Todos from './routes/Todos'
+import DailyTasks from './routes/DailyTasks/DailyTasks'
+import Todos from './routes/Todos/Todos'
 import './App.css'
-import Targets from './routes/Targets'
+import Targets from './routes/Targets/Targets'
 
 const App = ()=> {  
   return (

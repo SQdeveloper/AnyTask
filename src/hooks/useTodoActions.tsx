@@ -1,4 +1,4 @@
-import { Todo, TodoId, addTodo, changeState } from "../store/todos/slice";
+import { Todo, TodoId, addTodo, changeState, modifyTodo, removeTodo } from "../store/todos/slice";
 import { useAppDispatch } from "./store";
 
 const useTodoActions = () => {
@@ -12,7 +12,15 @@ const useTodoActions = () => {
         dispatch(addTodo(body))
     }
 
-    return {handleChangeState, handleAddTodo}
+    const handleRemoveTodo = (id: TodoId) => {
+        dispatch(removeTodo(id))
+    }
+
+    const handleModifyTodo = (body: Todo) => {
+        dispatch(modifyTodo(body))
+    }
+
+    return {handleChangeState, handleAddTodo, handleRemoveTodo, handleModifyTodo}
 };
 
 export default useTodoActions;

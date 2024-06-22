@@ -1,5 +1,5 @@
-import { Todo, TodoId, addTodo, changeState, modifyTodo, removeTodo } from "../store/todos/slice";
-import { useAppDispatch } from "./store";
+import { Todo, TodoId, addTodo, changeState, modifyTodo, removeTodo } from "../../../store/todos/slice";
+import { useAppDispatch } from "../../../hooks/store";
 
 const useTodoActions = () => {
     const dispatch = useAppDispatch();

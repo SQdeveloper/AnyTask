@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import AddIcon from "../../../components/icons/AddIcon";
 import { URGENCY } from "../../../constants/UrgencyTodo";
-import useTodoActions from "../../../hooks/useTodoActions";
+import useTodoActions from "../hooks/useTodoActions";
 import { Alert } from "@mui/material";
 
 const ModalCreate = ({handleClose}: {handleClose: Function}) => {

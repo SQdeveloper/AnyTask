@@ -1,6 +1,6 @@
 import { MouseEventHandler } from "react";
 import WarningIcon from "./icons/WarningIcon";
-import useTodoActions from "../hooks/useTodoActions";
+import useTodoActions from "../routes/Todos/hooks/useTodoActions";
 import { TodoId } from "../store/todos/slice";
 
 const ModalDelete = ({handleClose, id}: {handleClose: MouseEventHandler<HTMLButtonElement> | any, id: TodoId}) => {

@@ -5,7 +5,7 @@ import EditIcon from "../../../components/icons/EditIcon";
 import UncheckedIcon from "../../../components/icons/UncheckedIcon";
 import { useState } from "react";
 import BasicModal from "../../../components/Modal";
-import useTodoActions from "../../../hooks/useTodoActions";
+import useTodoActions from "../hooks/useTodoActions";
 import ModalEdit from "./ModalEdit";
 import ModalDelete from "../../../components/ModalDelete";
 

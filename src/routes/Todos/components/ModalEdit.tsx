@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import useTodoActions from "../../../hooks/useTodoActions";
+import useTodoActions from "../hooks/useTodoActions";
 import { Todo } from "../../../store/todos/slice";
 import EditIcon from "../../../components/icons/EditIcon";
 import { Alert } from "@mui/material";

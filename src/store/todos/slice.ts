@@ -10,36 +10,14 @@ export interface Todo {
     urgency: boolean
 }
 
-const initialState: Todo[] = [
-    {
-        id: '1',
-        title: 'Title problem',
-        description: 'description problem',
-        urgency: true,
-        state: false        
-    },
-    {
-        id: '2',
-        title: 'Title problem',
-        description: 'description problem',
-        urgency: false,
-        state: true        
-    },
-    {
-        id: '3',
-        title: 'Title problem',
-        description: 'description problem',
-        urgency: false,
-        state: false        
-    },
-    {
-        id: '4',
-        title: 'Title problem',
-        description: 'description problem',
-        urgency: true,
-        state: true        
-    },
-]
+const defaultState: Todo[] = []
+
+const initialState: Todo[] = (()=>{
+    const existStorage = localStorage.getItem('__redux__storage__');
+
+    if(!existStorage) return defaultState
+    return JSON.parse(existStorage)
+})()
 
 const todosSlice = createSlice({
     name: 'todos',

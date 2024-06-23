@@ -1,21 +1,18 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import CardTodo from "./components/CardTodo";
 import BasicModal from "../../components/Modal";
 import CheckedIcon from "../../components/icons/CheckedIcon";
 import FiltersIcon from '../../components/icons/FiltersIcon'
 import LegendIcon from "../../components/icons/LegendIcon";
 import UncheckedIcon from "../../components/icons/UncheckedIcon";
-import { useAppSelector } from "../../hooks/store";
 import AddIcon from "../../components/icons/AddIcon";
 import ModalCreate from "./components/ModalCreate";
 import useFilters from "./hooks/useFilters";
-import { Todo } from "../../store/todos/slice";
 
-const Todos = () => {
-    const todos = useAppSelector(state=>state.todos);       
+const Todos = () => { 
     const [open, setOpen] = useState(false);
-    const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
-    const { handleCheckedFilter, handleUnCheckedFilter } = useFilters();    
+    const [selectedFilter, setSelectedFilter] = useState<string>('Unchecked');
+    const { filteredTodos } = useFilters(selectedFilter);
 
     const handleOpen = ()=>{
         setOpen(true)
@@ -23,21 +20,11 @@ const Todos = () => {
 
     const handleClose = ()=>{
         setOpen(false)
-    }    
+    }        
 
-    const handleButtonUnchecked = ()=>{
-        const list = handleUnCheckedFilter();        
-        setFilteredTodos(list);
+    const handleChangeDate = (e: ChangeEvent<HTMLInputElement>)=>{
+        setSelectedFilter(e.target.value);
     }
-
-    const handleButtonChecked = ()=>{
-        const list = handleCheckedFilter();        
-        setFilteredTodos(list);
-    }
-
-    useEffect(()=>{
-        setFilteredTodos(todos);
-    },[])
 
     return (                
         <section className="w-full">
@@ -51,11 +38,11 @@ const Todos = () => {
                         <span className="font-medium">Filters:</span>
                     </div>
                     <button>Last 7 days</button>
-                    <button onClick={handleButtonChecked} >Checked</button>
-                    <button onClick={handleButtonUnchecked} >Unchecked</button>
+                    <button onClick={()=>{setSelectedFilter('Checked')}} >Checked</button>
+                    <button onClick={()=>{setSelectedFilter('Unchecked')}} >Unchecked</button>
                     <label htmlFor="">
                         Date: 
-                        <input type="date" />
+                        <input onChange={handleChangeDate} type="date" />
                     </label>
                 </div>
                 <div className="box-style">
@@ -78,7 +65,7 @@ const Todos = () => {
                 </button>
             </div>
             <section className="w-full mt-6 grid grid-todos gap-4">                                        
-                {filteredTodos.map((todo,index)=>(
+                {filteredTodos?.map((todo,index)=>(
                     <CardTodo key={index} todo={todo} delay={(index)*100}/>                   
                 ))}
             </section>

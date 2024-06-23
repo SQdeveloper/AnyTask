@@ -8,7 +8,7 @@ const useTodoActions = () => {
         dispatch(changeState(id))
     }
 
-    const handleAddTodo = (body: Omit<Todo, 'id'>)=>{
+    const handleAddTodo = (body: Omit<Todo, 'id' | 'date'>)=>{
         dispatch(addTodo(body))
     }
 

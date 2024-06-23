@@ -1,18 +1,35 @@
-import { STATE_TODO } from "../../../constants/StateTodo";
+import { useEffect, useState } from "react";
+import { Todo } from "../../../store/todos/slice";
 import { useAppSelector } from "../../../hooks/store";
+import { STATE_TODO } from "../../../constants/StateTodo";
 
-const useFilters = () => {
+const useFilters = (selectedFilter: string) => {    
+    const [filteredTodos, setFilteredTodos] = useState<Todo[]>();
     const todos = useAppSelector(state => state.todos);
 
-    const handleUnCheckedFilter = ()=>{
-        return todos.filter(todo => todo.state === STATE_TODO.UNCHECKED);
+    const handleUncheckedFilter = ()=>{
+        return todos.filter(todo => todo.state === STATE_TODO.UNCHECKED);        
     }   
-
+    
     const handleCheckedFilter = ()=>{
-        return todos.filter(todo => todo.state === STATE_TODO.CHECKED);
+        return todos.filter(todo => todo.state === STATE_TODO.CHECKED);                
     }   
 
-    return { handleCheckedFilter, handleUnCheckedFilter }
+    const handleDateFilter = ()=>{
+        return todos.filter(todo => todo.date === selectedFilter);
+    }
+
+    useEffect(()=>{        
+        if(selectedFilter === 'Checked') {
+            return setFilteredTodos(handleCheckedFilter)
+        }
+        if(selectedFilter === 'Unchecked') {
+            return setFilteredTodos(handleUncheckedFilter)
+        }
+        return setFilteredTodos(handleDateFilter);
+    },[todos, selectedFilter]);
+
+    return { filteredTodos }
 };
 
 export default useFilters;

@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { format } from "date-fns";
 
 export type TodoId = string;
 
@@ -7,7 +8,8 @@ export interface Todo {
     title: string,
     description: string,
     state: boolean,
-    urgency: boolean
+    urgency: boolean,
+    date: string
 }
 
 const defaultState: Todo[] = []
@@ -33,11 +35,13 @@ const todosSlice = createSlice({
             return listTodos
         },
 
-        addTodo: (state, action: PayloadAction<Omit<Todo, 'id'>>)=>{
+        addTodo: (state, action: PayloadAction<Omit<Todo, 'id' | 'date'>>)=>{
             const id = crypto.randomUUID();
             const body = action.payload
+            const currentdate = new Date();
+            const date = format(currentdate, 'yyyy-MM-dd');        
 
-            return [...state, {id, ...body}]
+            return [...state, {id,...body, date}]
         },
         
         removeTodo: (state, action: PayloadAction<TodoId>) =>{
@@ -63,4 +67,8 @@ const todosSlice = createSlice({
 
 export default todosSlice.reducer;
 
-export const { changeState, addTodo, removeTodo, modifyTodo } = todosSlice.actions
+export const { changeState,
+               addTodo,
+               removeTodo,
+               modifyTodo,         
+            } = todosSlice.actions

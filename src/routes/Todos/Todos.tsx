@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardTodo from "./components/CardTodo";
 import BasicModal from "../../components/Modal";
 import CheckedIcon from "../../components/icons/CheckedIcon";
@@ -8,10 +8,14 @@ import UncheckedIcon from "../../components/icons/UncheckedIcon";
 import { useAppSelector } from "../../hooks/store";
 import AddIcon from "../../components/icons/AddIcon";
 import ModalCreate from "./components/ModalCreate";
+import useFilters from "./hooks/useFilters";
+import { Todo } from "../../store/todos/slice";
 
 const Todos = () => {
-    const todos = useAppSelector(state=>state.todos)        
+    const todos = useAppSelector(state=>state.todos);       
     const [open, setOpen] = useState(false);
+    const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
+    const { handleCheckedFilter, handleUnCheckedFilter } = useFilters();    
 
     const handleOpen = ()=>{
         setOpen(true)
@@ -20,6 +24,20 @@ const Todos = () => {
     const handleClose = ()=>{
         setOpen(false)
     }    
+
+    const handleButtonUnchecked = ()=>{
+        const list = handleUnCheckedFilter();        
+        setFilteredTodos(list);
+    }
+
+    const handleButtonChecked = ()=>{
+        const list = handleCheckedFilter();        
+        setFilteredTodos(list);
+    }
+
+    useEffect(()=>{
+        setFilteredTodos(todos);
+    },[])
 
     return (                
         <section className="w-full">
@@ -33,8 +51,8 @@ const Todos = () => {
                         <span className="font-medium">Filters:</span>
                     </div>
                     <button>Last 7 days</button>
-                    <button>Checked</button>
-                    <button>Unchecked</button>
+                    <button onClick={handleButtonChecked} >Checked</button>
+                    <button onClick={handleButtonUnchecked} >Unchecked</button>
                     <label htmlFor="">
                         Date: 
                         <input type="date" />
@@ -60,7 +78,7 @@ const Todos = () => {
                 </button>
             </div>
             <section className="w-full mt-6 grid grid-todos gap-4">                                        
-                {todos.map((todo,index)=>(
+                {filteredTodos.map((todo,index)=>(
                     <CardTodo key={index} todo={todo} delay={(index)*100}/>                   
                 ))}
             </section>

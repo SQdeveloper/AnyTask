@@ -38,7 +38,7 @@ const CardTodo: React.FC<Props> = ({delay, todo}) => {
     return (
         <div className={`${todo.state && 'text-gray-500'} animate-appear-bottom delayAnimation-${delay} py-4 pb-[17px] rounded-md bg-white`}>
             <div className="flex gap-2 justify-between px-4">
-                <span className="capitalize font-medium text-[17px] flex gap-1.5 items-center">
+                <span className="font-medium text-[17px] flex gap-1.5 items-center">
                     {todo.state ? <CheckedIcon/>: <UncheckedIcon strokeColor="red"/>}                                
                     {todo.title}
                 </span>     
@@ -55,7 +55,7 @@ const CardTodo: React.FC<Props> = ({delay, todo}) => {
             <BasicModal open={openModalDelete} setOpen={setOpenModalDelete}>
                 <ModalDelete handleClose={handleCloseModalDelete} id={todo.id}/>
             </BasicModal>
-            <p className="my-4 mx-4 capitalize">{todo.description}</p>
+            <p className="my-4 mx-4">{todo.description}</p>
             <hr className=""/>
             <div className="mx-4 flex justify-between mt-5">
                 <button 

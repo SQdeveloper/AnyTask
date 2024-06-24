@@ -3,6 +3,7 @@ import AddIcon from "../../../components/icons/AddIcon";
 import { URGENCY } from "../../../constants/UrgencyTodo";
 import useTodoActions from "../hooks/useTodoActions";
 import { Alert } from "@mui/material";
+import { UppercaseText } from "../../../utilities/UppercaseText";
 
 const ModalCreate = ({handleClose}: {handleClose: Function}) => {
     const { handleAddTodo } = useTodoActions();
@@ -14,9 +15,9 @@ const ModalCreate = ({handleClose}: {handleClose: Function}) => {
 
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
-        const title = formData.get('title') as string;
-        const description = formData.get('description') as string;
-        const _urgency = formData.get('urgency')as string;
+        const title = UppercaseText(formData.get('title') as string);
+        const description = UppercaseText(formData.get('description') as string);    
+        const _urgency = formData.get('urgency') as string;
         const urgency = _urgency === 'urgent' ? URGENCY.URGENT : URGENCY.RELAX;
      
         if(!!!title || !!!description || !!!_urgency) return setIsModified(true);                

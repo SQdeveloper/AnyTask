@@ -11,6 +11,7 @@ import useTodoActions from "./hooks/useTodoActions";
 import DeleteIcon from "../../components/icons/DeleteIcon";
 import ModalEdit from "./components/ModalEdit";
 import ModalDelete from "../../components/ModalDelete";
+import ArrowUp from "../../components/icons/ArrowUp";
 
 const Todos = () => { 
     const [open, setOpen] = useState(false);
@@ -18,8 +19,8 @@ const Todos = () => {
     const { filteredTodos } = useFilters(selectedFilter);
     const [selectedTodo, setSelectedTodo] = useState<Todo | null>();
     const [openModalDelete, setOpenModalDelete] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(true);
     const { handleChangeState } = useTodoActions();
-
 
     const handleOpen = ()=>{
         setOpen(true)
@@ -37,13 +38,19 @@ const Todos = () => {
         setOpenModalDelete(false);
     }
 
-
     const handleChangeDate = (e: ChangeEvent<HTMLInputElement>)=>{
         setSelectedFilter(e.target.value);
     }
 
     const changeSelectedTodo = (todo: Todo)=>{
         setSelectedTodo(todo)
+    }
+
+    const handleInputAddTodo = (e:ChangeEvent<HTMLInputElement>)=>{
+        const text = e.target.value;
+
+        if(text.length > 0) return setIsEmpty(false);
+        return setIsEmpty(true)
     }
 
     useEffect(()=>{
@@ -60,7 +67,7 @@ const Todos = () => {
                             <span className="font-medium">Filters:</span>                            
                         </li>
                         <li className="flex gap-1.5 items-center">
-                            <input id="filter1" className="peer hidden" name="filters" type="radio" />
+                            <input id="filter1" defaultChecked className="peer hidden" name="filters" type="radio" />
                             <label onClick={()=>{setSelectedFilter('All')}} htmlFor="filter1" className="peer-checked:bg-gray-200 rounded-md py-1 px-2 select-none cursor-pointer">
                                 All
                             </label>
@@ -116,17 +123,30 @@ const Todos = () => {
                     <div>
                         <h2 className="font-medium text-xl ml-5 mb-1">Todo List</h2>
                         <ul className="flex flex-col gap-2 px-3">
-                        {filteredTodos?.map((todo)=>(                                                
-                            <li key={todo.id} onClick={()=>{changeSelectedTodo(todo)}}>
-                                <button className="outline-none rounded-md w-full p-2 text-start hover:bg-gray-100">
-                                    - {todo.title}
-                                </button>
+                        {filteredTodos?.map((todo, index)=>(                                                
+                            <li key={todo.id} className="flex gap-1" onClick={()=>{changeSelectedTodo(todo)}}>
+                                <input id={`todo-option${index}`} defaultChecked={index === 0 ? true : false} className="peer hidden" type="radio" name="todo"/>
+                                <label htmlFor={`todo-option${index}`} className="flex gap-1 justify-between peer-checked:shadow-style cursor-pointer outline-none rounded-md w-full p-2 text-start hover:bg-gray-100">
+                                    <span className="overflow-hidden text-ellipsis h-fit whitespace-nowrap ">- {todo.title}</span>
+                                    {todo.urgency ?
+                                        <span className="text-red-400">
+                                            urgent
+                                        </span>
+                                        :
+                                        <span className="text-blue-500">
+                                            relax                                            
+                                        </span>
+                                    }
+                                </label>
                             </li>
                         ))}
                         </ul>
                     </div>
-                    <form className="w-full mt-4 p-3 border-t">
-                        <input className="w-full outline-none border rounded-md p-2" type="text" placeholder="Add todo" />
+                    <form className="w-full mt-4 p-3 border-t shadow-top">
+                        <div className="content-input flex justify-between w-full outline-none border rounded-md p-2">
+                            <input onChange={handleInputAddTodo} className="w-full outline-none" type="text" placeholder="Add todo" />
+                            <ArrowUp addClass={`${!isEmpty ? 'text-blue-500' : 'text-gray-400'} scale-[88%]`} size="6"/>                        
+                        </div>
                     </form>
                 </div>
                 {
@@ -154,19 +174,19 @@ const Todos = () => {
                                             <span className="text-[#E57373] capitalize">Incomplete</span>
                                         </>
                                     }                                    
-                                </div>
-                                {/* <span
-                                    className={`${selectedTodo?.urgency ? 'text-[#FF6168]': 'text-green-400'} font-medium uppercase`}
-                                >
-                                    {selectedTodo?.urgency ? 'Urgent' : 'Relax'}                        
-                                </span> */}
+                                </div>                               
                             </div>
                             <h2 className="mt-2 mb-4 font-medium text-xl">{selectedTodo?.title}</h2>
 
                             <ul className="flex flex-col gap-3">                            
                                 <li>
                                     <h3 className="font-medium uppercase text-sm">Description</h3>
-                                    <p>{selectedTodo?.description}</p>
+                                    {
+                                        selectedTodo.description !== '' ? 
+                                        <p className="text-gray-400">Description doesn't exist</p>
+                                        :
+                                        <p>{selectedTodo.description}</p>
+                                    }
                                 </li>
                                 <li>
                                     <h3 className="font-medium uppercase text-sm">Urgency</h3>

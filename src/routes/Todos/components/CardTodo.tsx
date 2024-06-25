@@ -36,39 +36,44 @@ const CardTodo: React.FC<Props> = ({delay, todo}) => {
     }
 
     return (
-        <div className={`${todo.state && 'text-gray-500'} animate-appear-bottom delayAnimation-${delay} py-4 pb-[17px] rounded-md bg-white`}>
+        <div className={`${todo.state && 'text-gray-500'} flex flex-col justify-between animate-appear-bottom delayAnimation-${delay} py-4 pb-[17px] rounded-md bg-white`}>
             <div className="flex gap-2 justify-between px-4">
-                <span className="font-medium text-[17px] flex gap-1.5 items-center">
-                    {todo.state ? <CheckedIcon/>: <UncheckedIcon strokeColor="red"/>}                                
+                <span className="font-medium text-[17px] flex gap-1.5 items-top">
+                    <div className="mt-[2px]">
+                        {todo.state ? <CheckedIcon/>: <UncheckedIcon/>}                                
+                    </div>
                     {todo.title}
                 </span>     
-                <span className={`${todo.urgency ? 'text-red-500': 'text-green-400'} font-medium uppercase`}>
+                <span className={`${todo.urgency ? 'text-[#FF6168]': 'text-green-400'} font-medium uppercase`}>
                     {
                         todo.urgency ? 'Urgent' : 'Relax'                        
                     }                    
                 </span>           
             </div>
-            <hr className="mt-3"/>
-            <BasicModal open={open} setOpen={setOpen}>
-                <ModalEdit todo={todo} handleClose={handleClose}/>
-            </BasicModal>
-            <BasicModal open={openModalDelete} setOpen={setOpenModalDelete}>
-                <ModalDelete handleClose={handleCloseModalDelete} id={todo.id}/>
-            </BasicModal>
-            <p className="my-4 mx-4">{todo.description}</p>
-            <hr className=""/>
-            <div className="mx-4 flex justify-between mt-5">
-                <button 
-                    className="hover:bg-blue-500 hover:text-white duration-300 border border-blue-500 rounded-lg px-4 py-0.5 text-blue-500"
-                    onClick={()=>{handleChangeState(todo.id)}}
-                >                        
-                    {
-                        todo.state ? 'Uncheck': 'Check'
-                    }                    
-                </button>
-                <div className="flex gap-1.5">
-                    <button onClick={handleOpenModalDelete}><DeleteIcon/></button>
-                    <button onClick={handleOpen}><EditIcon/></button>                                                                
+            <div>
+
+                <hr className="mt-3"/>
+                <BasicModal open={open} setOpen={setOpen}>
+                    <ModalEdit todo={todo} handleClose={handleClose}/>
+                </BasicModal>
+                <BasicModal open={openModalDelete} setOpen={setOpenModalDelete}>
+                    <ModalDelete handleClose={handleCloseModalDelete} id={todo.id}/>
+                </BasicModal>            
+                <p className="my-4 mx-4 h-16 overflow-y-auto text-wrap">{todo.description}</p>            
+                <hr className=""/>
+                <div className="mx-4 flex justify-between mt-5">
+                    <button 
+                        className="hover:bg-blue-500 hover:text-white duration-300 border border-blue-500 rounded-lg px-4 py-0.5 text-blue-500"
+                        onClick={()=>{handleChangeState(todo.id)}}
+                    >                        
+                        {
+                            todo.state ? 'Uncheck': 'Check'
+                        }                    
+                    </button>
+                    <div className="flex gap-1.5">
+                        <button onClick={handleOpenModalDelete}><DeleteIcon/></button>
+                        <button onClick={handleOpen}><EditIcon/></button>                                                                
+                    </div>
                 </div>
             </div>
         </div>

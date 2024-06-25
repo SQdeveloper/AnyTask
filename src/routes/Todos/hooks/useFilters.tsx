@@ -20,10 +20,13 @@ const useFilters = (selectedFilter: string) => {
     }
 
     useEffect(()=>{        
-        if(selectedFilter === 'Checked') {
+        if(selectedFilter === 'All') {
+            return setFilteredTodos(todos)
+        }
+        if(selectedFilter === 'Complete') {
             return setFilteredTodos(handleCheckedFilter)
         }
-        if(selectedFilter === 'Unchecked') {
+        if(selectedFilter === 'Imcomplete') {
             return setFilteredTodos(handleUncheckedFilter)
         }
         return setFilteredTodos(handleDateFilter);

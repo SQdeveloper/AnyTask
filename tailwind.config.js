@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      userSelect: {
+        'none': 'none'
+      },
       fontFamily: {
         'primary': 'Poppins'
       },
@@ -18,6 +21,7 @@ export default {
       animation: {
         'appear-right': 'appear-right 1s both',
         'appear-bottom': 'appear-bottom 0.6s both',        
+        'modal': 'modal 0.3s both'
       },       
       keyframes: {
         'appear-right': {
@@ -33,6 +37,16 @@ export default {
             transform: 'none',
             opacity: 1
 
+          }
+        },
+        'modal': {
+          '0%': {
+            margin:  '-1.5rem 0 0 0',
+            opacity: 0
+          },
+          '100%': {
+            margin: 0,
+            opacity: 1
           }
         }
       }      

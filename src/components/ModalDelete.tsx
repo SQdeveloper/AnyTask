@@ -12,7 +12,7 @@ const ModalDelete = ({handleClose, id}: {handleClose: MouseEventHandler<HTMLButt
     }
 
     return (
-        <div className="box-modal-style">   
+        <div className="box-modal-style animate-modal">   
             <div className="flex justify-center mb-3">
                 <WarningIcon strokeColor="#3B82F6"/>
             </div>         

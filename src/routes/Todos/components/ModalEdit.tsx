@@ -28,7 +28,7 @@ const ModalEdit = ({todo, handleClose}:{todo: Todo, handleClose: Function}) => {
     }
 
     return (
-        <div className="box-modal-style">
+        <div className="box-modal-style animate-modal">
             <div className="pb-4 flex justify-center items-center gap-2">
                 <EditIcon strokeColor="#3B82F6"/>
                 <h2 className="text-[23px] font-medium text-center">Modify</h2>

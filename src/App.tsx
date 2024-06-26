@@ -12,7 +12,7 @@ const App = ()=> {
           <div className="animate-appear-right w-[230px] py-4 bg-transparent-white backdrop-blur-md">
               <SideBar/>
           </div>
-          <div className="flex-1 px-8 py-4 h-[100svh] overflow-y-scroll">
+          <div className="flex-1 px-8 py-4 h-[100svh]">
             <Routes>
               <Route path='/' element={<Navigate to='/todos'/>}/>
               <Route path='/todos' element={<Todos/>}/>

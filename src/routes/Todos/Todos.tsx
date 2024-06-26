@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import BasicModal from "../../components/Modal";
 import CheckedIcon from "../../components/icons/CheckedIcon";
 import FiltersIcon from '../../components/icons/FiltersIcon'
@@ -20,7 +20,22 @@ const Todos = () => {
     const [selectedTodo, setSelectedTodo] = useState<Todo | null>();
     const [openModalDelete, setOpenModalDelete] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
-    const { handleChangeState } = useTodoActions();
+    const { handleChangeState, handleAddTodo } = useTodoActions();    
+
+    const handleCreateTodo = (e: FormEvent<HTMLFormElement>)=>{
+        e.preventDefault();            
+
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
+        const title = (formData.get('title') as string).trim();
+        const description = '';
+        const state = false;
+        const urgency = true;
+
+        if(!title || isEmpty) return;
+
+        handleAddTodo( {title, description, state, urgency})
+    }
 
     const handleOpen = ()=>{
         setOpen(true)
@@ -48,7 +63,8 @@ const Todos = () => {
 
     const handleInputAddTodo = (e:ChangeEvent<HTMLInputElement>)=>{
         const text = e.target.value;
-
+        if(text === ' ') return e.target.value = ''
+        
         if(text.length > 0) return setIsEmpty(false);
         return setIsEmpty(true)
     }
@@ -112,21 +128,18 @@ const Todos = () => {
                         <UncheckedIcon/>
                         Not realized
                     </div>
-                </div>
-                {/* <button onClick={handleOpen} className="flex items-center gap-1 button-bg font-medium text-nowrap">            
-                    <AddIcon size={5} strokeColor="#fff"/>                
-                    Add Todo
-                </button> */}
+                </div>                
             </div>
             <section className="w-full mt-6 h-full grid grid-cols-2 gap-4">         
                 <div className="flex animate-appear-bottom flex-col justify-between bg-white rounded-xl w-full pt-4">
-                    <div>
+                    <div className="">
                         <h2 className="font-medium text-xl ml-5 mb-1">Todo List</h2>
-                        <ul className="flex flex-col gap-2 px-3">
+                        <ul className="overflow-y-scroll max-h-full flex flex-col gap-2 px-3">
                         {filteredTodos?.map((todo, index)=>(                                                
-                            <li key={todo.id} className="flex gap-1" onClick={()=>{changeSelectedTodo(todo)}}>
-                                <input id={`todo-option${index}`} defaultChecked={index === 0 ? true : false} className="peer hidden" type="radio" name="todo"/>
-                                <label htmlFor={`todo-option${index}`} className="flex gap-1 justify-between peer-checked:shadow-style cursor-pointer outline-none rounded-md w-full p-2 text-start hover:bg-gray-100">
+                            <li key={todo.id} className="flex relative gap-1 select-none" onClick={()=>{changeSelectedTodo(todo)}}>
+                                <input id={`todo-option${todo.id}`} defaultChecked={index === 0 ? true : false} className="peer hidden" type="radio" name="todo"/>
+                                <label htmlFor={`todo-option${todo.id}`} className={`${todo.state && 'opacity-40'} transition-opacity flex gap-1 justify-between peer-checked:shadow-style cursor-pointer outline-none rounded-md w-full p-2 text-start hover:bg-gray-100`}>
+                                <div className={`${todo.state ? 'clippy-100' : 'clippy-0'} transition-clippy absolute bg-black top-[50%] translate-y-[-50%] h-[1px] w-full`}></div>
                                     <span className="overflow-hidden text-ellipsis h-fit whitespace-nowrap ">- {todo.title}</span>
                                     {todo.urgency ?
                                         <span className="text-red-400">
@@ -142,9 +155,9 @@ const Todos = () => {
                         ))}
                         </ul>
                     </div>
-                    <form className="w-full mt-4 p-3 border-t shadow-top">
+                    <form onSubmit={handleCreateTodo} className="w-full mt-4 p-3 border-t shadow-top">
                         <div className="content-input flex justify-between w-full outline-none border rounded-md p-2">
-                            <input onChange={handleInputAddTodo} className="w-full outline-none" type="text" placeholder="Add todo" />
+                            <input name="title" onChange={handleInputAddTodo} className="w-full outline-none" type="text" placeholder="Add todo" />
                             <ArrowUp addClass={`${!isEmpty ? 'text-blue-500' : 'text-gray-400'} scale-[88%]`} size="6"/>                        
                         </div>
                     </form>
@@ -183,9 +196,9 @@ const Todos = () => {
                                     <h3 className="font-medium uppercase text-sm">Description</h3>
                                     {
                                         selectedTodo.description !== '' ? 
-                                        <p className="text-gray-400">Description doesn't exist</p>
-                                        :
                                         <p>{selectedTodo.description}</p>
+                                        :
+                                        <p className="text-gray-400">Description doesn't exist</p>
                                     }
                                 </li>
                                 <li>

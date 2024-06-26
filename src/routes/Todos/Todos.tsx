@@ -130,11 +130,11 @@ const Todos = () => {
                     </div>
                 </div>                
             </div>
-            <section className="w-full mt-6 h-full grid grid-cols-2 gap-4">         
-                <div className="flex animate-appear-bottom flex-col justify-between bg-white rounded-xl w-full pt-4">
-                    <div className="">
+            <section className="w-full flex-1 mt-6 flex gap-4 overflow-hidden">         
+                <div className="flex flex-1 animate-appear-bottom overflow-hidden flex-col justify-between bg-white rounded-xl w-full pt-4">
+                    <div className="overflow-y-scroll">
                         <h2 className="font-medium text-xl ml-5 mb-1">Todo List</h2>
-                        <ul className="overflow-y-scroll max-h-full flex flex-col gap-2 px-3">
+                        <ul className="flex flex-col gap-2 px-3">
                         {filteredTodos?.map((todo, index)=>(                                                
                             <li key={todo.id} className="flex relative gap-1 select-none" onClick={()=>{changeSelectedTodo(todo)}}>
                                 <input id={`todo-option${todo.id}`} defaultChecked={index === 0 ? true : false} className="peer hidden" type="radio" name="todo"/>
@@ -155,7 +155,7 @@ const Todos = () => {
                         ))}
                         </ul>
                     </div>
-                    <form onSubmit={handleCreateTodo} className="w-full mt-4 p-3 border-t shadow-top">
+                    <form onSubmit={handleCreateTodo} className="w-full mt-2 p-3 border-t shadow-top">
                         <div className="content-input flex justify-between w-full outline-none border rounded-md p-2">
                             <input name="title" onChange={handleInputAddTodo} className="w-full outline-none" type="text" placeholder="Add todo" />
                             <ArrowUp addClass={`${!isEmpty ? 'text-blue-500' : 'text-gray-400'} scale-[88%]`} size="6"/>                        
@@ -165,7 +165,7 @@ const Todos = () => {
                 {
                     selectedTodo &&
 
-                    <div className="flex flex-col animate-appear-bottom delayAnimation-100 justify-between p-4 bg-white rounded-xl w-full">
+                    <div className="flex flex-1 flex-col animate-appear-bottom delayAnimation-100 justify-between p-4 bg-white rounded-xl w-full">
                         <div>
                             <BasicModal open={open} setOpen={setOpen}>
                                 <ModalEdit todo={selectedTodo} handleClose={handleClose}/>

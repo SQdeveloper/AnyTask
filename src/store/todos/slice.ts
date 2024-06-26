@@ -41,7 +41,7 @@ const todosSlice = createSlice({
             const currentdate = new Date();
             const date = format(currentdate, 'yyyy-MM-dd');        
 
-            return [...state, {id,...body, date}]
+            return [{id,...body, date}, ...state]
         },
         
         removeTodo: (state, action: PayloadAction<TodoId>) =>{

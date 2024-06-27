@@ -10,8 +10,10 @@ const Todos = () => {
     const [selectedTodo, setSelectedTodo] = useState<Todo | null>();
     const [indexSelectedTodo, setIndexSelectedTodo] = useState(0);
 
-    const handleChangeDate = (e: ChangeEvent<HTMLInputElement>)=>{
-        setSelectedFilter(e.target.value);
+    const handleChangeDate = (e: ChangeEvent<HTMLInputElement>)=>{        
+        setSelectedFilter(e.target.value);        
+        const input = document.getElementById('filter5') as HTMLInputElement;
+        if(input) input.checked = true;
     }    
 
     const handleClickInputFilter = (value: string)=>{
@@ -39,11 +41,11 @@ const Todos = () => {
                         </InputFilter>                    
                         <InputFilter handleClickInputFilter={handleClickInputFilter} id="filter4" isDefaultChecked={false} value="Incomplete">                                                                        
                             Imcomplete
-                        </InputFilter>                                        
-                        <InputFilter handleClickInputFilter={handleClickInputFilter} id="filter5" isDefaultChecked={false} value="Date">                                                                                                
-                            Date: 
-                            <input onChange={handleChangeDate} type="date" />                                  
-                        </InputFilter>                                                            
+                        </InputFilter>                                                                
+                        <input id='filter5' type="radio" className="peer hidden" name="filters"/>                        
+                        <label className="peer-checked:bg-gray-200 rounded-md py-1 px-2 select-none cursor-pointer">
+                            Date: <input onChange={handleChangeDate} type="date" />                                                              
+                        </label>
                     </ul>
                 </div>                 
             </div>

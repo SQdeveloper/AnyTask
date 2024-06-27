@@ -26,7 +26,7 @@ const useFilters = (selectedFilter: string) => {
         if(selectedFilter === 'Complete') {
             return setFilteredTodos(handleCheckedFilter)
         }
-        if(selectedFilter === 'Imcomplete') {
+        if(selectedFilter === 'Incomplete') {
             return setFilteredTodos(handleUncheckedFilter)
         }
         return setFilteredTodos(handleDateFilter);

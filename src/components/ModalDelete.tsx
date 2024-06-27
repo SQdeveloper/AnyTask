@@ -21,7 +21,7 @@ const ModalDelete = ({handleClose, id}: {handleClose: MouseEventHandler<HTMLButt
             <hr className="border-t-gray-300" />
             <div className="flex justify-center mt-4 gap-6">
                 <button onClick={handleClose} className="button-without">Cancel</button>
-                <button onClick={handleClickDone} className="button-bg">Done</button>
+                <button onClick={handleClickDone} className="button-bg">Delete</button>
             </div>
         </div>
     );

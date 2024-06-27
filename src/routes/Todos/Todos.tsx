@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import BasicModal from "../../components/Modal";
 import CheckedIcon from "../../components/icons/CheckedIcon";
 import FiltersIcon from '../../components/icons/FiltersIcon'
@@ -14,13 +14,15 @@ import ModalDelete from "../../components/ModalDelete";
 import ArrowUp from "../../components/icons/ArrowUp";
 
 const Todos = () => { 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);    
     const [selectedFilter, setSelectedFilter] = useState<string>('All');
     const { filteredTodos } = useFilters(selectedFilter);
     const [selectedTodo, setSelectedTodo] = useState<Todo | null>();
     const [openModalDelete, setOpenModalDelete] = useState(false);
     const [isEmpty, setIsEmpty] = useState(true);
     const { handleChangeState, handleAddTodo } = useTodoActions();    
+    const [indexSelectedTodo, setIndexSelectedTodo] = useState(0);
+    const inputTodo = useRef<HTMLInputElement>(null);
 
     const handleCreateTodo = (e: FormEvent<HTMLFormElement>)=>{
         e.preventDefault();            
@@ -35,6 +37,7 @@ const Todos = () => {
         if(!title || isEmpty) return;
 
         handleAddTodo( {title, description, state, urgency})
+        if(inputTodo.current) inputTodo.current.value = '';        
     }
 
     const handleOpen = ()=>{
@@ -55,11 +58,7 @@ const Todos = () => {
 
     const handleChangeDate = (e: ChangeEvent<HTMLInputElement>)=>{
         setSelectedFilter(e.target.value);
-    }
-
-    const changeSelectedTodo = (todo: Todo)=>{
-        setSelectedTodo(todo)
-    }
+    }    
 
     const handleInputAddTodo = (e:ChangeEvent<HTMLInputElement>)=>{
         const text = e.target.value;
@@ -69,8 +68,15 @@ const Todos = () => {
         return setIsEmpty(true)
     }
 
+    const handleClickInputFilter = (value: string)=>{
+        setSelectedFilter(value)
+        setIndexSelectedTodo(0);
+    }
+
     useEffect(()=>{
-        setSelectedTodo(filteredTodos ? filteredTodos[0] : null)
+        if(filteredTodos) {            
+            setSelectedTodo(filteredTodos[indexSelectedTodo])
+        }        
     },[filteredTodos])
 
     return (                
@@ -84,7 +90,7 @@ const Todos = () => {
                         </li>
                         <li className="flex gap-1.5 items-center">
                             <input id="filter1" defaultChecked className="peer hidden" name="filters" type="radio" />
-                            <label onClick={()=>{setSelectedFilter('All')}} htmlFor="filter1" className="peer-checked:bg-gray-200 rounded-md py-1 px-2 select-none cursor-pointer">
+                            <label onClick={()=>{handleClickInputFilter('All')}} htmlFor="filter1" className="peer-checked:bg-gray-200 rounded-md py-1 px-2 select-none cursor-pointer">
                                 All
                             </label>
                         </li>
@@ -96,13 +102,13 @@ const Todos = () => {
                         </li>
                         <li className="flex gap-1.5 items-center">
                             <input id="filter3" className="peer hidden" name="filters" type="radio" />                        
-                            <label className="peer-checked:bg-gray-200 rounded-md py-1 px-2 select-none cursor-pointer" onClick={()=>{setSelectedFilter('Complete')}} htmlFor="filter3">
+                            <label className="peer-checked:bg-gray-200 rounded-md py-1 px-2 select-none cursor-pointer" onClick={()=>{handleClickInputFilter('Complete')}} htmlFor="filter3">
                                 Complete
                             </label>
                         </li>
                         <li className="flex gap-1.5 items-center">
                             <input id="filter4" className="peer hidden" name="filters" type="radio" />                                                
-                            <label className="peer-checked:bg-gray-200 rounded-md py-1 px-2 select-none cursor-pointer" onClick={()=>{setSelectedFilter('Imcomplete')}} htmlFor="filter4">
+                            <label className="peer-checked:bg-gray-200 rounded-md py-1 px-2 select-none cursor-pointer" onClick={()=>{handleClickInputFilter('Imcomplete')}} htmlFor="filter4">
                                 Imcomplete
                             </label>
                         </li>
@@ -110,7 +116,7 @@ const Todos = () => {
                             <input id="filter5" className="peer hidden" name="filters" type="radio" />                                                                                                        
                             <label className="peer-checked:bg-gray-200 rounded-md py-1 px-2 select-none cursor-pointer" htmlFor="filter5">
                                 Date: 
-                                <input onChange={handleChangeDate} type="date" />                                
+                                <input onChange={handleChangeDate} type="date" />                                  
                             </label>
                         </li>
                     </ul>
@@ -136,10 +142,18 @@ const Todos = () => {
                         <h2 className="font-medium text-xl ml-5 mb-1">Todo List</h2>
                         <ul className="flex flex-col gap-2 px-3">
                         {filteredTodos?.map((todo, index)=>(                                                
-                            <li key={todo.id} className="flex relative gap-1 select-none" onClick={()=>{changeSelectedTodo(todo)}}>
-                                <input id={`todo-option${todo.id}`} defaultChecked={index === 0 ? true : false} className="peer hidden" type="radio" name="todo"/>
-                                <label htmlFor={`todo-option${todo.id}`} className={`${todo.state && 'opacity-40'} transition-opacity flex gap-1 justify-between peer-checked:shadow-style cursor-pointer outline-none rounded-md w-full p-2 text-start hover:bg-gray-100`}>
-                                <div className={`${todo.state ? 'clippy-100' : 'clippy-0'} transition-clippy absolute bg-black top-[50%] translate-y-[-50%] h-[1px] w-full`}></div>
+                            <li key={todo.id} className="flex relative gap-1 select-none" onClick={()=>{setSelectedTodo(todo)}}>
+                                <input 
+                                    id={`todo-option${todo.id}`} 
+                                    checked={indexSelectedTodo === index} 
+                                    className="peer hidden" type="radio" name="todo"
+                                    onChange={() => setIndexSelectedTodo(index)}
+                                />
+                                <label 
+                                    htmlFor={`todo-option${todo.id}`} 
+                                    className={`${todo.state && 'opacity-40'} transition-opacity flex gap-1 justify-between peer-checked:shadow-style cursor-pointer outline-none rounded-md w-full p-2 text-start hover:bg-gray-100`}
+                                >
+                                    <div className={`${todo.state ? 'clippy-100' : 'clippy-0'} transition-clippy absolute bg-black top-[50%] translate-y-[-50%] h-[1px] w-full`}></div>
                                     <span className="overflow-hidden text-ellipsis h-fit whitespace-nowrap ">- {todo.title}</span>
                                     {todo.urgency ?
                                         <span className="text-red-400">
@@ -157,7 +171,7 @@ const Todos = () => {
                     </div>
                     <form onSubmit={handleCreateTodo} className="w-full mt-2 p-3 border-t shadow-top">
                         <div className="content-input flex justify-between w-full outline-none border rounded-md p-2">
-                            <input name="title" onChange={handleInputAddTodo} className="w-full outline-none" type="text" placeholder="Add todo" />
+                            <input ref={inputTodo} name="title" onChange={handleInputAddTodo} className="w-full outline-none" type="text" placeholder="Add todo" />
                             <ArrowUp addClass={`${!isEmpty ? 'text-blue-500' : 'text-gray-400'} scale-[88%]`} size="6"/>                        
                         </div>
                     </form>

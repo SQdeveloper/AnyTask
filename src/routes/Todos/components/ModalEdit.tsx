@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
 import useTodoActions from "../hooks/useTodoActions";
 import { Todo } from "../../../store/todos/slice";
 import EditIcon from "../../../components/icons/EditIcon";
@@ -15,7 +15,7 @@ const ModalEdit = ({todo, handleClose}:{todo: Todo, handleClose: Function}) => {
         const formData = new FormData(form);
         const title = formData.get('title') as string;
         const urgency = formData.get('urgency') as string;
-        const description = formData.get('description') as string;
+        const description = (formData.get('description') as string).trim();
         
         const _urgency = todo.urgency ? 'Urgent' : 'Relax';
 
@@ -23,8 +23,21 @@ const ModalEdit = ({todo, handleClose}:{todo: Todo, handleClose: Function}) => {
         
         const transformedUrgency = urgency === 'Urgent' ? true : false;
         const body = {...todo, title, urgency: transformedUrgency, description}
+        console.log('entro')
         handleModifyTodo(body)
         handleClose();
+    }
+
+    const handleChangeDescription = (e: ChangeEvent<HTMLTextAreaElement>)=>{
+        const input = e.target.value;
+
+        if(input === ' ') e.target.value = '';
+    }
+
+    const handleKeydown = (e: KeyboardEvent<HTMLTextAreaElement>)=>{
+        if(e.key === 'Enter') {
+            e.preventDefault()
+        }
     }
 
     return (
@@ -62,7 +75,7 @@ const ModalEdit = ({todo, handleClose}:{todo: Todo, handleClose: Function}) => {
                         <span className='font-medium'>
                             Description
                         </span>
-                        <textarea defaultValue={todo.description} name="description" className="input-style" placeholder=""/>
+                        <textarea onKeyDown={handleKeydown} onChange={handleChangeDescription} defaultValue={todo.description} name="description" className="input-style" placeholder=""/>
                     </label>
                     {
                         isModified && 

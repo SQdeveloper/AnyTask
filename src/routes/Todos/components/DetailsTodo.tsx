@@ -44,7 +44,7 @@ const DetailsTodo: React.FC<Props> = ({selectedTodo}) => {
                     <ModalDelete handleClose={handleCloseModalDelete} id={selectedTodo.id}/>
                 </BasicModal>                                       
                 <div className="flex items-center justify-between">
-                    <span className="uppercase font-medium text-gray-500">details</span>
+                    <span className={`${selectedTodo.state ? 'text-gray-300' : 'text-gray-500'} uppercase font-medium`}>details</span>
                     <div className="flex gap-1">
                         {selectedTodo.state ? 
                             <>
@@ -59,16 +59,16 @@ const DetailsTodo: React.FC<Props> = ({selectedTodo}) => {
                         }                                    
                     </div>                               
                 </div>
-                <h2 className="mt-2 mb-4 font-medium text-xl">{selectedTodo?.title}</h2>
+                <h2 className={`${selectedTodo.state && 'text-gray-300'} mt-2 mb-4 font-medium text-xl`}>{selectedTodo?.title}</h2>
 
-                <ul className="flex flex-col gap-3">                            
+                <ul className={`${selectedTodo.state && 'text-gray-300'} flex flex-col gap-3`}>                            
                     <li>
                         <h3 className="font-medium uppercase text-sm">Description</h3>
                         {
                             selectedTodo.description !== '' ? 
                             <p>{selectedTodo.description}</p>
                             :
-                            <p className="text-gray-400">Description doesn't exist</p>
+                            <p className={`${selectedTodo.state ? 'text-gray-300' : 'text-gray-400'}`}>Description doesn't exist</p>
                         }
                     </li>
                     <li>
@@ -99,8 +99,8 @@ const DetailsTodo: React.FC<Props> = ({selectedTodo}) => {
                     }                    
                 </button>
                 <div className="flex gap-1.5">
-                    <button onClick={handleOpenModalDelete}><DeleteIcon/></button>
-                    <button onClick={handleOpen}><EditIcon/></button>                                                                
+                    <button className="hover:translate-y-[-4px] transition-all duration-200" onClick={handleOpenModalDelete}><DeleteIcon/></button>
+                    <button className="hover:translate-y-[-4px] transition-all duration-200" onClick={handleOpen}><EditIcon/></button>                                                                
                 </div>
             </div>
         </div>

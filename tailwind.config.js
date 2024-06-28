@@ -21,9 +21,9 @@ export default {
       animation: {
         'appear-right': 'appear-right 1s both',
         'appear-bottom': 'appear-bottom 0.6s both',        
-        'modal': 'modal 0.3s both'
+        'modal': 'modal 0.3s both',        
       },       
-      keyframes: {
+      keyframes: {        
         'appear-right': {
           '0%': {transform: 'translateX(-100%)'},
           '100%': {transform: 'none'}

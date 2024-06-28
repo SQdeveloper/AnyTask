@@ -26,7 +26,7 @@ const Todos = () => {
             <div className="flex gap-4 flex-wrap">
                 <div className="box-style">
                     <ul className="flex gap-1">
-                        <li className="flex gap-1.5 items-center">                            
+                        <li className="flex gap-1.5 items-center mr-2">                            
                             <FiltersIcon/>
                             <span className="font-medium">Filters:</span>                            
                         </li>
@@ -43,8 +43,8 @@ const Todos = () => {
                             Imcomplete
                         </InputFilter>                                                                
                         <input id='filter5' type="radio" className="peer hidden" name="filters"/>                        
-                        <label className="peer-checked:bg-gray-200 rounded-md py-1 px-2 select-none cursor-pointer">
-                            Date: <input onChange={handleChangeDate} type="date" />                                                              
+                        <label className="peer-checked:shadow-style rounded-md py-1 px-2 select-none cursor-pointer">
+                            Date: <input className="outline-none" onChange={handleChangeDate} type="date" />                                                              
                         </label>
                     </ul>
                 </div>                 

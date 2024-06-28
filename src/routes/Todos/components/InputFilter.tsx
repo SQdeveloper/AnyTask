@@ -12,7 +12,7 @@ const InputFilter: React.FC<Props> = ({handleClickInputFilter, children, isDefau
     return (
         <li className="flex gap-1.5 items-center">
             <input id={id} defaultChecked={isDefaultChecked} className="peer hidden" name="filters" type="radio" />
-            <label onClick={()=>{handleClickInputFilter(value)}} htmlFor={id} className="peer-checked:bg-gray-200 rounded-md py-1 px-2 select-none cursor-pointer">
+            <label onClick={()=>{handleClickInputFilter(value)}} htmlFor={id} className="peer-checked:shadow-style rounded-md py-1 px-2 select-none cursor-pointer">
                 {children}
             </label>
         </li>

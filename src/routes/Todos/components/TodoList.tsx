@@ -51,8 +51,8 @@ const TodoList: React.FC<Props> = ({selectedFilter, indexSelectedTodo, setIndexS
 
     return (
         <div className="flex flex-1 animate-appear-bottom overflow-hidden flex-col justify-between bg-white rounded-xl w-full pt-4">
-            <div className="overflow-y-scroll">
-                <h2 className="font-medium text-xl ml-5 mb-1">Todo List</h2>
+            <div className="h-full overflow-y-scroll">
+                <h2 className="font-medium text-xl ml-5 mb-3">Todo List</h2>
                 <ul className="flex flex-col gap-2 px-3">
                 {filteredTodos?.map((todo, index)=>(                                                
                     <CardTodo key={todo.id} todo={todo} index={index} indexSelectedTodo={indexSelectedTodo} setIndexSelectedTodo={setIndexSelectedTodo} setSelectedTodo={setSelectedTodo}/>

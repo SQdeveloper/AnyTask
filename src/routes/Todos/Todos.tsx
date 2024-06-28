@@ -49,7 +49,7 @@ const Todos = () => {
                     </ul>
                 </div>                 
             </div>
-            <section className="w-full flex-1 mt-6 flex gap-4 overflow-hidden">         
+            <section className="w-full flex-1 mt-6 flex gap-4 overflow-hidden">
                 <TodoList selectedFilter={selectedFilter} indexSelectedTodo={indexSelectedTodo} setIndexSelectedTodo={setIndexSelectedTodo} setSelectedTodo={setSelectedTodo} />
                 { selectedTodo && <DetailsTodo selectedTodo={selectedTodo}/> }
             </section>

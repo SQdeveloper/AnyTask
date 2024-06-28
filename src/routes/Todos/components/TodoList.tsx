@@ -50,14 +50,20 @@ const TodoList: React.FC<Props> = ({selectedFilter, indexSelectedTodo, setIndexS
     },[filteredTodos])
 
     return (
-        <div className="flex flex-1 animate-appear-bottom overflow-hidden flex-col justify-between bg-white rounded-xl w-full pt-4">
+        <div className="flex w-[50%] animate-appear-bottom overflow-hidden flex-col justify-between bg-white rounded-xl pt-4">
             <div className="h-full overflow-y-scroll">
                 <h2 className="font-medium text-xl ml-5 mb-3">Todo List</h2>
-                <ul className="flex flex-col gap-2 px-3">
-                {filteredTodos?.map((todo, index)=>(                                                
-                    <CardTodo key={todo.id} todo={todo} index={index} indexSelectedTodo={indexSelectedTodo} setIndexSelectedTodo={setIndexSelectedTodo} setSelectedTodo={setSelectedTodo}/>
-                ))}
-                </ul>
+                {filteredTodos && filteredTodos.length > 0 ?
+                    <ul className="flex flex-col gap-2 px-3">
+                        {filteredTodos.map((todo, index)=>(                                                
+                            <CardTodo key={todo.id} todo={todo} index={index} indexSelectedTodo={indexSelectedTodo} setIndexSelectedTodo={setIndexSelectedTodo} setSelectedTodo={setSelectedTodo}/>
+                        ))}           
+                    </ul>   
+                    :
+                    <div>
+                        {/* <TodoIcon className={'scale-[200%] ml-24'}/> */}
+                    </div>
+                }
             </div>
             <form onSubmit={handleCreateTodo} className="w-full mt-2 p-3 border-t shadow-top">
                 <div className="content-input flex justify-between w-full outline-none border rounded-md p-2">

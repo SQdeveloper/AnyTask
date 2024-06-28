@@ -8,7 +8,7 @@ const SideBar = () => {
         <aside className="font-primary">
             <header className="flex gap-2 px-4">
                 <div className="aspect-square w-10 h-fit">
-                    <img className="rounded-full object-cover h-full w-full" src="../../src/assets/images/perfil.jpg" alt="perfil" />
+                    <img className="rounded-full object-cover h-full w-full" src="../../public/perfil.jpg" alt="perfil" />
                 </div>
                 <div>
                     <h3 className="font-medium">Jefferson Silva</h3>
